@@ -1,0 +1,379 @@
+/* app/static/css/style.css */
+
+/* Estilos Gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Personalização de cores */
+:root {
+    --primary-color: #0d6efd;
+    --primary-hover: #0b5ed7;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #0dcaf0;
+}
+
+/* Estilos dos Cards */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: none;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+    padding: 0.75rem 1.25rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-footer {
+    background-color: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0.75rem 1.25rem;
+}
+
+/* Animações */
+.btn, .nav-link, .card {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Estilização das tarefas */
+.task-priority-high {
+    border-left: 4px solid var(--danger-color);
+}
+
+.task-priority-medium {
+    border-left: 4px solid var(--warning-color);
+}
+
+.task-priority-low {
+    border-left: 4px solid var(--info-color);
+}
+
+.task-completed {
+    opacity: 0.7;
+}
+
+.task-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.task-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* Estatísticas do Dashboard */
+.stats-card {
+    height: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.stats-card .stats-icon {
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    font-size: 5rem;
+    opacity: 0.2;
+}
+
+.stats-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0;
+}
+
+/* Notificações */
+.notification-dropdown {
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    white-space: normal;
+    border-left: 3px solid transparent;
+}
+
+.notification-item:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-left-color: var(--primary-color);
+}
+
+/* Estilos para o calendário */
+.calendar-day {
+    min-height: 6rem;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.calendar-day:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.calendar-day-header {
+    padding: 0.25rem;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.calendar-day-inactive {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.calendar-day-current {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.calendar-event {
+    margin: 0.1rem 0;
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* Animação de carregamento */
+.loading-spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 0.25rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Personalização das barras de progresso */
+.progress {
+    height: 0.5rem;
+    border-radius: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-lg {
+    height: 1rem;
+}
+
+/* Estilos para visualização em grid das tarefas */
+.task-grid-item {
+    height: 100%;
+}
+
+.task-grid-item .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-grid-item .card-text {
+    flex: 1;
+}
+
+/* Estilos para insights */
+.insight-item {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0d6efd;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.25rem;
+}
+
+.insight-risk {
+    border-left-color: #dc3545;
+}
+
+.insight-suggestion {
+    border-left-color: #ffc107;
+}
+
+/* Estilos para detalhes da refeição */
+.meal-card {
+    margin-bottom: 1.5rem;
+}
+
+.meal-card .meal-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.meal-item-row:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Personalização para dispositivos móveis */
+@media (max-width: 767.98px) {
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .table-responsive {
+        margin-bottom: 0;
+    }
+}
+
+/* Animações de feedback */
+@keyframes highlight {
+    0% {
+        background-color: rgba(13, 110, 253, 0.2);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+.highlight {
+    animation: highlight 1s ease-out;
+}
+
+/* Estilos específicos para autenticação */
+.auth-card {
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.auth-header {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.auth-logo {
+    max-width: 100px;
+    margin-bottom: 1rem;
+}
+
+/* Personalização de inputs */
+.form-control:focus,
+.form-select:focus {
+    border-color: rgba(13, 110, 253, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Transições suaves */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.3s;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+
+/* Estilos para toasts e alertas */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+/* Estilos para widgets do dashboard */
+.widget {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-body {
+    flex: 1;
+    overflow: auto;
+}
+
+/* Personalização de botões */
+.btn {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Personalização da barra de navegação */
+.navbar {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

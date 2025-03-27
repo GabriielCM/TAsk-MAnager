@@ -1,0 +1,255 @@
+<!-- app/templates/tasks/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Gerenciamento de Tarefas - TaskMaster{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-list-check"></i> Minhas Tarefas</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">
+        <i class="bi bi-plus-circle"></i> Nova Tarefa
+    </button>
+</div>
+
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Filtros</h5>
+    </div>
+    <div class="card-body">
+        <form id="filter-form" class="row g-3">
+            <div class="col-md-4">
+                <label for="filter-status" class="form-label">Status</label>
+                <select id="filter-status" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="false">Pendentes</option>
+                    <option value="true">Concluídos</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="filter-priority" class="form-label">Prioridade</label>
+                <select id="filter-priority" class="form-select">
+                    <option value="">Todas</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Baixa</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="filter-category" class="form-label">Categoria</label>
+                <select id="filter-category" class="form-select">
+                    <option value="">Todas</option>
+                    <!-- Categorias serão carregadas via JavaScript -->
+                </select>
+            </div>
+            <div class="col-md-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-funnel"></i> Filtrar
+                </button>
+                <button type="button" id="clear-filters" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle"></i> Limpar Filtros
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Lista de Tarefas -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Lista de Tarefas</h5>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary view-btn active" data-view="list">
+                <i class="bi bi-list"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary view-btn" data-view="grid">
+                <i class="bi bi-grid"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- Visualização em Lista -->
+        <div id="list-view">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px"></th>
+                            <th>Tarefa</th>
+                            <th>Vencimento</th>
+                            <th>Prioridade</th>
+                            <th>Categoria</th>
+                            <th style="width: 150px">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasks-list">
+                        <tr>
+                            <td colspan="6" class="text-center">Carregando tarefas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Visualização em Grid -->
+        <div id="grid-view" class="row g-4" style="display: none;">
+            <!-- Tarefas serão carregadas via JavaScript -->
+            <div class="col-12 text-center">
+                <p>Carregando tarefas...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Tarefa -->
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">Nova Tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <input type="hidden" id="task-id">
+                    <div class="mb-3">
+                        <label for="task-title" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="task-title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="task-description" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="task-description" rows="3"></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="task-due-date" class="form-label">Data de Vencimento</label>
+                            <input type="date" class="form-control" id="task-due-date" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="task-due-time" class="form-label">Hora</label>
+                            <input type="time" class="form-control" id="task-due-time" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="task-priority" class="form-label">Prioridade</label>
+                            <select class="form-select" id="task-priority">
+                                <option value="1">Alta</option>
+                                <option value="2" selected>Média</option>
+                                <option value="3">Baixa</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="task-category" class="form-label">Categoria</label>
+                            <select class="form-select" id="task-category">
+                                <option value="">Sem categoria</option>
+                                <!-- Categorias serão carregadas via JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="task-recurrence" class="form-label">Recorrência</label>
+                        <select class="form-select" id="task-recurrence">
+                            <option value="">Não recorrente</option>
+                            <option value="daily">Diária</option>
+                            <option value="weekly">Semanal</option>
+                            <option value="monthly">Mensal</option>
+                            <option value="yearly">Anual</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="save-task">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Detalhes da Tarefa -->
+<div class="modal fade" id="taskDetailsModal" tabindex="-1" aria-labelledby="taskDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskDetailsModalLabel">Detalhes da Tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3 id="detail-title">Título da Tarefa</h3>
+                        <p class="text-muted">
+                            <span id="detail-due-date">01/01/2025</span> | 
+                            Prioridade: <span id="detail-priority">Média</span> | 
+                            Categoria: <span id="detail-category">Trabalho</span>
+                        </p>
+                        <div class="mb-4">
+                            <h5>Descrição</h5>
+                            <p id="detail-description">Descrição da tarefa...</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Status</h5>
+                                <p class="card-text">
+                                    <span class="badge" id="detail-status">Pendente</span>
+                                </p>
+                                <div id="detail-complete-actions">
+                                    <button class="btn btn-success btn-sm" id="mark-complete">
+                                        <i class="bi bi-check-circle"></i> Marcar como Concluída
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insights -->
+                <div class="mt-4">
+                    <h5><i class="bi bi-lightbulb"></i> Insights</h5>
+                    <div id="task-insights">
+                        <p class="text-center">Carregando insights...</p>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm mt-2" id="generate-insights">
+                        <i class="bi bi-arrow-repeat"></i> Gerar Novos Insights
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="edit-task">
+                    <i class="bi bi-pencil"></i> Editar
+                </button>
+                <button type="button" class="btn btn-danger" id="delete-task">
+                    <i class="bi bi-trash"></i> Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir esta tarefa? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+{% endblock %}
